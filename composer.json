@@ -1,0 +1,19 @@
+{
+    "name": "iabdelhay/wp-admin-toolkit-pro",
+    "version": "1.0.0",
+    "description": "A foundational package for WordPress to manage settings and forms.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Ibrahim Mohamed Abd-Elhay",
+            "email": "iabdelhay.mail@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {"WPAdminToolkitPro\\": "src/"}
+    }
+}
