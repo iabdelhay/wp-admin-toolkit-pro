@@ -3,7 +3,7 @@ namespace WPAdminToolkitPro\Settings;
 
 use WPAdminToolkitPro\Config;
 use WPAdminToolkitPro\Contracts\SingletonContract;
-use WPAdminToolkitPro\core\Singleton;
+use WPAdminToolkitPro\Core\Singleton;
 
 class SettingsManager implements SingletonContract
 {

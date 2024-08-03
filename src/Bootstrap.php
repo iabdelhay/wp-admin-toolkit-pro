@@ -4,7 +4,7 @@ namespace WPAdminToolkitPro;
 use WPAdminToolkitPro\Config;
 use WPAdminToolkitPro\Admin\AdminPageFactory;
 use WPAdminToolkitPro\Contracts\SingletonContract;
-use WPAdminToolkitPro\core\Singleton;
+use WPAdminToolkitPro\Core\Singleton;
 use WPAdminToolkitPro\Settings\SettingsManager;
 use WPAdminToolkitPro\Form\FormHandler;
 
