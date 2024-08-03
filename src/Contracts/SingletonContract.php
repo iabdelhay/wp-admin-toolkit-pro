@@ -3,5 +3,5 @@ namespace WPAdminToolkitPro\Contracts;
 
 interface SingletonContract
 {
-    public static function instance(...$args): self;
+    public static function instance(...$args): static;
 }
