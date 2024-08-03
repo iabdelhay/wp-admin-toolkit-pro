@@ -1,5 +1,5 @@
 <?php 
-namespace WPAdminToolkitPro\core;
+namespace WPAdminToolkitPro\Core;
 
 trait Singleton
 {
