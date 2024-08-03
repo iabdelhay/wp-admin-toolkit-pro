@@ -1,13 +1,22 @@
 <?php
 namespace WPAdminToolkitPro\Admin;
 
-class AdminPageFactory {
+use WPAdminToolkitPro\Config;
+
+class AdminPageFactory 
+{
+    public function __construct()
+    {
+        # code...
+    }
+
     public function addAdminPages() {
+
         $this->createAdminPage('main_settings', [
-            'page_title' => 'WP AdminToolkit Pro Settings',
-            'menu_title' => 'AdminToolkit Pro',
+            'page_title' => Config::instance()->getPluginName(),
+            'menu_title' => Config::instance()->getPluginName(),
             'capability' => 'manage_options',
-            'menu_slug' => 'wp-admin-toolkit-pro',
+            'menu_slug' => Config::instance()->getPluginKey(),
             'icon_url' => 'dashicons-admin-tools',
             'position' => null
         ]);

@@ -1,9 +1,9 @@
 <div class="wrap">
-    <h1>WP AdminToolkit Pro Settings</h1>
+    <h1><?php echo $this->config->getPluginName() ?></h1>
     <form method="post" action="options.php">
         <?php
-        settings_fields('wp_admin_toolkit_pro_settings');
-        do_settings_sections('wp_admin_toolkit_pro');
+        settings_fields($this->config->getPluginKey());
+        do_settings_sections($this->config->getPluginKey());
         submit_button();
         ?>
     </form>
