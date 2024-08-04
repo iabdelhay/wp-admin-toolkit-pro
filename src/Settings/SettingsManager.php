@@ -53,18 +53,22 @@ class SettingsManager implements SingletonContract
                 [$this, 'renderField'],
                 $this->config->getPluginKey(),
                 $field['section'],
-                ['label_for' => $field['id'], 'field_type' => 'checkbox']
+                [
+                    'label_for' => $field['id'], 
+                    'field_type' => $field['field_type'], 
+                    'description' => $field['description']
+                ]
             );
         }
     }
 
-    public function addSettingField($id, $title, $section = null) {
+    public function addSettingField($id, $title, $field_type = 'checkbox', $section = null, $description = '') {
 
         if(empty($section)){
             $section = $this->config->getPluginKey();
         }
 
-        $this->fields[] = compact('id','title','section');
+        $this->fields[] = compact('id','title', 'field_type', 'section', 'description');
     }
 
     public function renderPage($args) {
@@ -87,7 +91,14 @@ class SettingsManager implements SingletonContract
             case 'checkbox':
                 echo '<input type="checkbox" id="'. $args['label_for'] .'" name="'.$this->config->getPluginKey().'['. $args['label_for'] .']" value="1" '. checked($value, 1, false) .'>';
                 break;
+            case 'textarea':
+                echo '<textarea cols="50" row="150" id="'. $args['label_for'] .'" name="'.$this->config->getPluginKey().'['. $args['label_for'] .']">'.$value.'</textarea>';
+                break;
             // Additional case handlers for other types of inputs can be added here.
+        }
+
+        if(isset($args['description']) && !empty($args['description'])){
+            echo '<p>'.esc_html($args['description']).'</p>';
         }
     }
 
