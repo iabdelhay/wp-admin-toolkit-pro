@@ -18,7 +18,9 @@ class Bootstrap implements SingletonContract
         string $version = '1.0.0'
     ): Config
     {
-        $config = Config::instance($pluginKey, $pluginName, $version);
+        $config = Config::instance($pluginKey, $pluginName, $version, self::guessPluginRoot());
+
+        self::ensurePackageConfiguredCorrectly();
 
         self::instance()->run();
 
@@ -45,6 +47,34 @@ class Bootstrap implements SingletonContract
 
         add_action('admin_post_wp_atk_pro_form', [new FormHandler(), 'handleFormSubmission']);
         add_action('wp_ajax_wp_atk_pro_form', [new FormHandler(), 'handleFormSubmission']);
+    }
+
+    /**
+     * Guess the developer's plugin root directory.
+     *
+     * @return string
+     */
+    protected static function guessPluginRoot()
+    {
+        // Use debug_backtrace to identify where this class is being called from
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        $firstCall = isset($backtrace[1]) ? $backtrace[1] : null;
+
+        if ($firstCall && isset($firstCall['file'])) {
+            // Determine the plugin root by moving up the directory structure
+            return dirname($firstCall['file'], 1); // Adjust levels as needed
+        }
+
+        return '';
+    }
+
+    private static function ensurePackageConfiguredCorrectly(): void
+    {
+        $config = Config::instance();
+
+        if(is_null($config->getPluginRoot())){
+            throw new \Exception("It seems that the 'WPAdminToolkitPro' couldn't guess the {$config->getPluginName()} path. Please use the method 'setPluginRoot' from this object instance to set correctly you'r plugin root directory. ");
+        }
     }
 
     public static function activate() {

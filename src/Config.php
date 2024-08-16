@@ -8,20 +8,15 @@ class Config implements SingletonContract
 {
     use Singleton;
 
-    private $pluginKey;
-    private $pluginName;
-    private $version;
+    private string $adminFolder = 'admin';
 
     public function __construct(
-        $pluginKey = 'wp_admin_toolkit_pro', 
-        $pluginName = 'WP Admin toolkit pro',
-        $version = '1.0.0'
+        private readonly string $pluginKey = 'wp_admin_toolkit_pro', 
+        private readonly string $pluginName = 'WP Admin toolkit pro',
+        private readonly string $version = '1.0.0',
+        private string | null $pluginRoot = null,
     )
-    {
-        $this->pluginKey = $pluginKey;
-        $this->pluginName = $pluginName;
-        $this->version = $version;
-    }
+    {}
 
     public function getPluginKey(): string
     {
@@ -36,5 +31,37 @@ class Config implements SingletonContract
     public function getVersion(): string
     {
         return $this->version;
+    }
+
+    /**
+     * Get the plugin root directory.
+     *
+     * @return string
+     */
+    public function getPluginRoot()
+    {
+        return $this->pluginRoot;
+    }
+
+
+    public function setAdminFolder(string $adminFolder = 'admin'): static
+    {
+        $this->adminFolder = $adminFolder;
+
+        return $this;
+    }
+
+    /**
+     * Get the plugin root directory.
+     *
+     * @return string
+     */
+    public function setPluginRoot(string $pluginRoot): static
+    {
+        if(is_null($this->pluginRoot)){
+            $this->pluginRoot = $pluginRoot;
+        }
+
+        return $this;
     }
 }
