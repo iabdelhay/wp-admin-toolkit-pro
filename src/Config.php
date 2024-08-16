@@ -14,7 +14,8 @@ class Config implements SingletonContract
         private readonly string $pluginKey = 'wp_admin_toolkit_pro', 
         private readonly string $pluginName = 'WP Admin toolkit pro',
         private readonly string $version = '1.0.0',
-        private string | null $pluginRoot = null,
+        private string | null $pluginRootDirectory = null,
+        private string | null $pluginMainDirectory = null,
     )
     {}
 
@@ -38,9 +39,19 @@ class Config implements SingletonContract
      *
      * @return string
      */
-    public function getPluginRoot()
+    public function getPluginRootDirectory()
     {
-        return $this->pluginRoot;
+        return $this->pluginRootDirectory;
+    }
+
+    /**
+     * Get the plugin root directory.
+     *
+     * @return string
+     */
+    public function getPluginMainDirectory()
+    {
+        return $this->pluginMainDirectory;
     }
 
 
@@ -57,14 +68,28 @@ class Config implements SingletonContract
     }
 
     /**
-     * Get the plugin root directory.
+     * set the plugin root directory.
      *
      * @return string
      */
-    public function setPluginRoot(string $pluginRoot): static
+    public function setPluginRootDirectory(string $pluginRootDirectory): static
     {
-        if(is_null($this->pluginRoot)){
-            $this->pluginRoot = $pluginRoot;
+        if(is_null($this->pluginRootDirectory)){
+            $this->pluginRootDirectory = $pluginRootDirectory;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the plugin main directory.
+     *
+     * @return string
+     */
+    public function setPluginMainDirectory(string $pluginMainDirectory): static
+    {
+        if(is_null($this->pluginMainDirectory)){
+            $this->pluginMainDirectory = $pluginMainDirectory;
         }
 
         return $this;

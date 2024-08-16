@@ -13,12 +13,23 @@ class Bootstrap implements SingletonContract
     use Singleton;
 
     public static function init(
-        string $pluginKey = "", 
-        string $pluginName = "", 
-        string $version = '1.0.0'
+        string $pluginKey = null, 
+        string $pluginName = null, 
+        string $version = null,
+        string $pluginRootDirectory = null,
+        string $pluginMainDirectory = null,
     ): Config
     {
-        $config = Config::instance($pluginKey, $pluginName, $version, self::guessPluginRoot());
+        $pluginRootDirectory = $pluginRootDirectory ?? self::guessPluginRoot();
+        $pluginMainDirectory = $pluginMainDirectory ?? $pluginMainDirectory;
+
+        $pluginData = self::getPluginData( $pluginRootDirectory );
+
+        $pluginKey = $pluginKey ?: sanitize_title($pluginData['Name']);
+        $pluginName = $pluginName ?: $pluginData['Name'];
+        $version = $version ?? $pluginData['Version'];
+
+        $config = Config::instance($pluginKey, $pluginName, $version, $pluginRootDirectory, $pluginMainDirectory);
 
         self::ensurePackageConfiguredCorrectly();
 
@@ -50,7 +61,39 @@ class Bootstrap implements SingletonContract
     }
 
     /**
+     * Get plugin data using WordPress's get_plugin_data() function.
+     *
+     * @return string
+     */
+    private static function getPluginData($pluginRoot): array
+    {
+        $files = scandir($pluginRoot);
+
+        if (!function_exists('get_plugin_data')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        foreach ($files as $file) {
+            $filePath = $pluginRoot . DIRECTORY_SEPARATOR . $file;
+
+            // Check if it's a PHP file
+            if (is_file($filePath) && substr($file, -4) === '.php') {
+                // Use get_plugin_data to determine if this file has plugin headers
+                $pluginData = get_plugin_data($filePath);
+                
+                if (!empty($pluginData['Name'])) {
+                    return $pluginData;
+                }
+            }
+        }
+
+        throw new \Exception('Main plugin file not found.');
+    }
+
+    /**
      * Guess the developer's plugin root directory.
+     * 
+     * This method shouls be called within the 'init' method only.
      *
      * @return string
      */
@@ -72,7 +115,7 @@ class Bootstrap implements SingletonContract
     {
         $config = Config::instance();
 
-        if(is_null($config->getPluginRoot())){
+        if(is_null($config->getPluginRootDirectory())){
             throw new \Exception("It seems that the 'WPAdminToolkitPro' couldn't guess the {$config->getPluginName()} path. Please use the method 'setPluginRoot' from this object instance to set correctly you'r plugin root directory. ");
         }
     }

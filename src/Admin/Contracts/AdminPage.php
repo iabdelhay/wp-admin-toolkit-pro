@@ -11,48 +11,48 @@ interface AdminPage
      *
      * @return void
      */
-    public static function render(): void;
+    public function render(): void;
 
     /**
      * Retrieves the page title for the admin page.
      *
      * @return string
      */
-    public static function getPageTitle(): string;
+    public function getPageTitle(): string;
 
     /**
      * Retrieves the menu title for the admin page.
      *
      * @return string
      */
-    public static function getMenuTitle(): string;
+    public function getMenuTitle(): string;
 
     /**
      * Retrieves the required capability for accessing the admin page.
      *
      * @return string
      */
-    public static function getCapability(): string;
+    public function getCapability(): string;
 
     /**
      * Retrieves the menu slug for the admin page.
      *
      * @return string
      */
-    public static function getMenuSlug(): string;
+    public function getMenuSlug(): string;
 
     /**
      * Retrieves the icon URL for the admin page.
      *
      * @return string
      */
-    public static function getIconUrl(): string;
+    public function getIconUrl(): string;
 
     /**
      * Retrieves the position in the menu where this admin page should appear.
      *
      * @return int|null
      */
-    public static function getPosition(): ?int;
+    public function getPosition(): ?int;
 }
 
