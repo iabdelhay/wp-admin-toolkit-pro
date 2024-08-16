@@ -51,6 +51,11 @@ class Config implements SingletonContract
         return $this;
     }
 
+    public function getAdminFolder(): string
+    {
+        return $this->adminFolder;
+    }
+
     /**
      * Get the plugin root directory.
      *
