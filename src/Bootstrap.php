@@ -21,7 +21,7 @@ class Bootstrap implements SingletonContract
     ): Config
     {
         $pluginRootDirectory = $pluginRootDirectory ?? self::guessPluginRoot();
-        $pluginMainDirectory = $pluginMainDirectory ?? $pluginMainDirectory;
+        // $pluginMainDirectory = $pluginMainDirectory ?? $pluginMainDirectory;
 
         $pluginData = self::getPluginData( $pluginRootDirectory );
 

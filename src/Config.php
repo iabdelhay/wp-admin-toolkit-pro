@@ -8,7 +8,7 @@ class Config implements SingletonContract
 {
     use Singleton;
 
-    private string $adminFolder = 'admin';
+    private array $adminFolder = ['admin', 'Admin'];
 
     public function __construct(
         private readonly string $pluginKey = 'wp_admin_toolkit_pro', 
@@ -55,14 +55,14 @@ class Config implements SingletonContract
     }
 
 
-    public function setAdminFolder(string $adminFolder = 'admin'): static
+    public function setAdminFolder(string|array $adminFolder = 'admin'): static
     {
-        $this->adminFolder = $adminFolder;
+        $this->adminFolder = is_array($adminFolder) ? $adminFolder : [$adminFolder];
 
         return $this;
     }
 
-    public function getAdminFolder(): string
+    public function getAdminFolder(): array
     {
         return $this->adminFolder;
     }

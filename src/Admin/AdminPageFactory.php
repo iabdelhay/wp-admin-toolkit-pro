@@ -64,9 +64,14 @@ class AdminPageFactory
         $adminPages = array_merge($adminPages, $this->scanDirectoryForAdminPages($pluginMainDirectory));
 
         // Check if the 'admin' directory exists and scan it
-        $adminDir = $pluginMainDirectory . DIRECTORY_SEPARATOR . $this->config->getAdminFolder();
-        if (is_dir($adminDir)) {
-            $adminPages = array_merge($adminPages, $this->scanDirectoryForAdminPages($adminDir));
+        $adminDirs = array_map(function($folder) use ($pluginMainDirectory) {
+            return $pluginMainDirectory . DIRECTORY_SEPARATOR . $folder;
+        }, $this->config->getAdminFolder());
+
+        foreach ($adminDirs as $adminDir) {
+            if (is_dir($adminDir)) {
+                $adminPages = array_merge($adminPages, $this->scanDirectoryForAdminPages($adminDir));
+            }
         }
 
         return $adminPages;

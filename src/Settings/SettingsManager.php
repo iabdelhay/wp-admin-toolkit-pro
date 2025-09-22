@@ -89,6 +89,7 @@ class SettingsManager implements SingletonContract
         $value = isset($options[$args['label_for']]) ? $options[$args['label_for']] : '';
         $name = $this->getGenerateFieldName($args['label_for']);
         $description = $args['description'] ?? '';
+        $fieldOptions = $args['options'] ?? [];
 
         switch ($args['field_type']) {
             case 'checkbox':
@@ -110,9 +111,9 @@ class SettingsManager implements SingletonContract
                 $this->renderActionButton($args['label_for'], $config);
                 return;
             case 'select':
-                if (is_array($options) && !empty($options)) {
+                if (is_array($fieldOptions) && !empty($fieldOptions)) {
                     echo '<select id="' . esc_attr($args['label_for']) . '" name="' . esc_attr($name) . '">';
-                    foreach ($options as $optionValue => $optionLabel) {
+                    foreach ($fieldOptions as $optionValue => $optionLabel) {
                         echo '<option value="' . esc_attr($optionValue) . '" ' . selected($value, $optionValue, false) . '>' . esc_html($optionLabel) . '</option>';
                     }
                     echo '</select>';
