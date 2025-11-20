@@ -290,4 +290,11 @@ class SettingsManager implements SingletonContract
 
         return  !empty($settings) ? $settings : [];
     }
+
+    public static function setSettings($settings): void
+    {
+        $settings =  !empty($settings) ? $settings : [];
+
+        update_option(self::instance()->config->getPluginKey(), $settings);
+    }
 }
